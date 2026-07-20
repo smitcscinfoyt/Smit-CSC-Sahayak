@@ -39,15 +39,18 @@
   # =====================================
   log "Writing .env..."
   # Variables are injected by GitHub Actions from repository secrets
-  # (see .github/workflows/deploy.yml)
+  # (see .github/workflows/main.yml)
   cat > .env << 'ENVEOF'
   # Written by deploy.sh — do not edit manually
   ENVEOF
 
   # Append secrets passed as env vars from GitHub Actions
-  [ -n "${PORT:-}"           ] && echo "PORT=${PORT}"                     >> .env || echo "PORT=5001"                       >> .env
-  [ -n "${GEMINI_API_KEY:-}" ] && echo "GEMINI_API_KEY=${GEMINI_API_KEY}" >> .env
-  [ -n "${DATABASE_URL:-}"   ] && echo "DATABASE_URL=${DATABASE_URL}"     >> .env
+  [ -n "${PORT:-}"                             ] && echo "PORT=${PORT}"                                                   >> .env || echo "PORT=5001" >> .env
+  [ -n "${SAMBANOVA_API_KEY:-}"                ] && echo "SAMBANOVA_API_KEY=${SAMBANOVA_API_KEY}"                         >> .env
+  [ -n "${GEMINI_API_KEY:-}"                   ] && echo "GEMINI_API_KEY=${GEMINI_API_KEY}"                               >> .env
+  [ -n "${AI_INTEGRATIONS_GEMINI_API_KEY:-}"   ] && echo "AI_INTEGRATIONS_GEMINI_API_KEY=${AI_INTEGRATIONS_GEMINI_API_KEY}" >> .env
+  [ -n "${AI_INTEGRATIONS_GEMINI_BASE_URL:-}"  ] && echo "AI_INTEGRATIONS_GEMINI_BASE_URL=${AI_INTEGRATIONS_GEMINI_BASE_URL}" >> .env
+  [ -n "${DATABASE_URL:-}"                     ] && echo "DATABASE_URL=${DATABASE_URL}"                                   >> .env
 
   # =====================================
   # BUILD & RESTART CONTAINERS
@@ -78,4 +81,3 @@
   done
 
   log "Deployment complete!"
-  
